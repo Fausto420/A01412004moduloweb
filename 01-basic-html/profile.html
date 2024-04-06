@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input, textarea, button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+        }
+        button {
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+        button:hover {
+            background-color: #3a873d;
+        }
+    </style>
+</head>
+<body>
+
+<form id="contactForm">
+    <input type="text" id="asunto" name="asunto" placeholder="Asunto" required>
+    <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+    <textarea id="comentarios" name="comentarios" placeholder="Comentarios" required></textarea>
+    <input type="email" id="correo" name="correo" placeholder="Email" required>
+    <input type="tel" id="telefono" name="telefono" placeholder="Número de teléfono" required>
+    <button type="submit">Enviar</button>
+</form>
+
+<script>
+    document.getElementById('contactForm').onsubmit = function(event) {
+        event.preventDefault();
+
+        var nombre = document.getElementById('nombre').value;
+        var correo = document.getElementById('correo').value;
+        
+        alert('Gracias por sus comentarios ' + nombre + ', te contactaremos a ' + correo + ' en caso de ser necesario.');
+
+        document.getElementById('contactForm').reset();
+    };
+</script>
+
+</body>
+</html>
