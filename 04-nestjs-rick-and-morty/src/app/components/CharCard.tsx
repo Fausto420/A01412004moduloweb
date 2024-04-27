@@ -1,0 +1,57 @@
+"use client";
+import { useEffect, useState } from "react";
+
+interface Props {
+  id: number;
+  imgUrl: string;
+  name: string;
+}
+
+const Card: React.FC<Props> = ({
+  id,
+  imgUrl,
+  name
+}) => {
+  const [favorite, setFavorite] = useState<boolean>(false);
+
+  useEffect(() => {
+    const favoritesFromStorage = localStorage.getItem("favorites");
+    if (favoritesFromStorage) {
+      const favoritesArray = JSON.parse(favoritesFromStorage);
+      setFavorite(favoritesArray.includes(id));
+    }
+  }, [id]);
+
+  const toggleFavorite = () => {
+    setFavorite(!favorite);
+    let favoritesArray: number[] = [];
+    const favoritesFromStorage = localStorage.getItem("favorites");
+    if (favoritesFromStorage) {
+      favoritesArray = JSON.parse(favoritesFromStorage);
+    }
+    if (favorite) {
+      favoritesArray = favoritesArray.filter((favId: number) => favId !== id);
+    } else {
+      favoritesArray.push(id);
+    }
+    localStorage.setItem("favorites", JSON.stringify(favoritesArray));
+  };
+
+  return (
+    <div className="max-w-sm rounded-lg overflow-hidden shadow-lg dark:bg-gray-800 transition-transform duration-200 hover:-translate-y-1 hover:scale-105 border-4 border-green-500">
+      <div className="relative">
+        <img className="w-full" src={imgUrl} alt={name} />
+        <button onClick={toggleFavorite} className={`absolute top-4 right-4 bg-black p-1 rounded-full ${favorite ? 'bg-yellow-400' : 'bg-opacity-60'}`} aria-label="Toggle Favorite">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={favorite ? 'yellow' : 'none'} stroke="currentColor" strokeWidth="2" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.336-.515.994-.515 1.33 0l1.828 2.799a1.5 1.5 0 001.285.764l3.095.45c1.669.242 2.34 2.31 1.13 3.493l-2.24 2.183a1.5 1.5 0 00-.434 1.343l.528 3.078a1.5 1.5 0 01-2.173 1.582l-2.763-1.453a1.5 1.5 0 00-1.398 0l-2.763 1.453a1.5 1.5 0 01-2.173-1.582l.528-3.078a1.5 1.5 0 00-.434-1.343l-2.24-2.183c-1.21-1.183-.539-3.251 1.13-3.493l3.095-.45a1.5 1.5 0 001.285-.764l1.828-2.799z"/>
+          </svg>
+        </button>
+        <div className="absolute bottom-0 w-full p-5 bg-gradient-to-t from-black to-transparent">
+          <a href={`/profile?id=${id}`}><h5 className="text-2xl font-bold text-white">{name}</h5></a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Card;
