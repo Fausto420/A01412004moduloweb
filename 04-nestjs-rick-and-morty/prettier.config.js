@@ -1,4 +1,4 @@
-/** @type {import("prettier").Config} */
+/*@type {import("prettier").Config} */
 const config = {
   singleQuote: true, // decide if you want to use single quotes
   semi: false, // decide if you want to add semicolon at the end
